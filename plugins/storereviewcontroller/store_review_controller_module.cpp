@@ -47,7 +47,7 @@ void register_storereviewcontroller_types() {
 	Engine::get_singleton()->add_singleton(Engine::Singleton("StoreReviewController", store_review_controller));
 }
 
-void unregister_inappstore_types() {
+void unregister_storereviewcontroller_types() {
 	if (store_review_controller) {
 		memdelete(store_review_controller);
 	}

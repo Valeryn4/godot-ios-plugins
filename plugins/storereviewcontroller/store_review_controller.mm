@@ -41,7 +41,7 @@ void StoreReviewController::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("request_review"), &StoreReviewController::request_review);
 }
 
-void StoreReviewController::request_review {
+void StoreReviewController::request_review() {
 	//ios 14+ 
 	if (@available(iOS 14.0, *)) {
 		UIScene *scene = [[[[UIApplication sharedApplication] connectedScenes] allObjects] firstObject];
