@@ -32,7 +32,7 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
-
+#import "app_delegate.h"
 
 StoreReviewController *StoreReviewController::instance = NULL;
 
@@ -44,17 +44,25 @@ void StoreReviewController::_bind_methods() {
 void StoreReviewController::request_review() {
 	//ios 14+ 
 	if (@available(iOS 14.0, *)) {
-		UIScene *scene = [[[[UIApplication sharedApplication] connectedScenes] allObjects] firstObject];
-
-		if([scene.delegate conformsToProtocol:@protocol(UIWindowSceneDelegate)]){
-			UIWindow *window = [(id <UIWindowSceneDelegate>)scene.delegate window];
-			if (window) {
-				[SKStoreReviewController requestReviewInScene:window.windowScene];
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate]
+		UIWindow *window = (UIWindow *)[app.window];
+		if (window) {
+			UIWindowScene *scene = (UIWindowScene *)[window windowScene];
+			if (scene) {
+				[SKStoreReviewController requestReviewInScene: scene];
 				printf("request reviewed!\n");
 				return;
 			}
+			else {
+				printf("request review scene invalid");
+			}
 		}
-		printf("request review failed!\n");
+		else {
+			printf("request review window invalid");
+		}
+	}
+	else {
+		printf("request review IOS version < 14.0");
 	}
 
 	//deperdicated
