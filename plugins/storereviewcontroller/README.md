@@ -1,4 +1,6 @@
-# Godot iOS InAppStore plugin
+# Godot iOS StoreReviewController plugin
+
+https://developer.apple.com/documentation/storekit/skstorereviewcontroller?language=objc
 
 ## Methods
 
