@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GODOT_PLUGINS="gamecenter inappstore icloud camera arkit apn storereviewcontroller"
+GODOT_PLUGINS="gamecenter inappstore icloud camera arkit apn storereviewcontroller appsharedialog"
 
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
