@@ -56,8 +56,7 @@ AppShareDialog::~AppShareDialog() {
 }
 
 void AppShareDialog::share_text(const String &title, const String &subject, const String &text) {
-	AppDelegate *app_delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	ViewController *root_controller = (ViewController *)[app_delegate viewController];
+	ViewController *root_controller = (ViewController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
 
 	NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
 
@@ -77,8 +76,7 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 }
 
 void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
-	AppDelegate *app_delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	ViewController *root_controller = (ViewController *)[app_delegate viewController];
+	ViewController *root_controller = (ViewController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
 	
 	NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
 	NSString * imagePath = [NSString stringWithCString:path.utf8().get_data() encoding:NSUTF8StringEncoding];
