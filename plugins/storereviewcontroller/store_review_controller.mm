@@ -46,9 +46,9 @@ void StoreReviewController::request_review() {
 	if (@available(iOS 14.0, *)) {
 		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate]
 		UIWindow *window = (UIWindow *)[app window];
-		if (window) {
+		if (window != NULL) {
 			UIWindowScene *scene = (UIWindowScene *)[window windowScene];
-			if (scene) {
+			if (scene != NULL) {
 				[SKStoreReviewController requestReviewInScene: scene];
 				printf("request reviewed!\n");
 				return;
