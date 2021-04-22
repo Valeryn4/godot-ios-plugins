@@ -1,0 +1,17 @@
+[config]
+name="AppShareDialog"
+binary="appsharedialog.xcframework"
+
+initialization="register_appsharedialog_types"
+deinitialization="unregister_appsharedialog_types"
+
+[dependencies]
+linked=[]
+embedded=[]
+system=["StoreKit.framework"]
+
+capabilities=[]
+
+files=[]
+
+[plist]
