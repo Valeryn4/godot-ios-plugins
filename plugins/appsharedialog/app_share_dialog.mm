@@ -32,7 +32,6 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
-#import "app_delegate.h"
 
 AppShareDialog *AppShareDialog::instance = NULL;
 
@@ -56,7 +55,7 @@ AppShareDialog::~AppShareDialog() {
 }
 
 void AppShareDialog::share_text(const String &title, const String &subject, const String &text) {
-	ViewController *root_controller = (ViewController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
+	UIViewController *root_controller = (UIViewController *)((UIViewController *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
 
 	NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
 
@@ -76,7 +75,7 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 }
 
 void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
-	ViewController *root_controller = (ViewController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
+	UIViewController *root_controller = (UIViewController *)((UIViewController *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
 	
 	NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
 	NSString * imagePath = [NSString stringWithCString:path.utf8().get_data() encoding:NSUTF8StringEncoding];
