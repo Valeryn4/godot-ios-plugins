@@ -38,8 +38,8 @@ AppShareDialog *AppShareDialog::instance = NULL;
 
 
 void AppShareDialog::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("share_text"), &InAppStore::share_text);
-	ClassDB::bind_method(D_METHOD("share_image"), &InAppStore::share_image);
+	ClassDB::bind_method(D_METHOD("share_text"), &AppShareDialog::share_text);
+	ClassDB::bind_method(D_METHOD("share_image"), &AppShareDialog::share_image);
 }
 
 AppShareDialog *AppShareDialog::get_singleton() {
@@ -55,7 +55,7 @@ AppShareDialog::AppShareDialog() {
 AppShareDialog::~AppShareDialog() {
 }
 
-void InAppStore::share_text(const String &title, const String &subject, const String &text) {
+void AppShareDialog::share_text(const String &title, const String &subject, const String &text) {
 	AppDelegate *app_delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	ViewController *root_controller = (ViewController *)[app_delegate viewController];
 
@@ -76,7 +76,7 @@ void InAppStore::share_text(const String &title, const String &subject, const St
 	}
 }
 
-void InAppStore::share_image(const String &path, const String &title, const String &subject, const String &text) {
+void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
 	AppDelegate *app_delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	ViewController *root_controller = (ViewController *)[app_delegate viewController];
 	
