@@ -32,7 +32,7 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
-#import "app_delegate.h"
+#import "platform/iphone/app_delegate.h"
 
 StoreReviewController *StoreReviewController::instance = NULL;
 
