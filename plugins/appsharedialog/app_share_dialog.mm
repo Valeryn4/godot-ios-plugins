@@ -32,6 +32,7 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
+#import "platform/iphone/godot_app_delegate.h"
 
 AppShareDialog *AppShareDialog::instance = NULL;
 
@@ -55,7 +56,9 @@ AppShareDialog::~AppShareDialog() {
 }
 
 void AppShareDialog::share_text(const String &title, const String &subject, const String &text) {
-	UIViewController *root_controller = (UIViewController *)((UIApplication *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
+
+	UIViewController *root_controller = (UIViewController*)[[(GodotApplicalitionDelegate*)[[UIApplication sharedApplication]delegate] window] rootViewController];
+	//UIViewController *root_controller = [UIApplication sharedApplication].keyWindow.rootViewController;
 
 	NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
 
@@ -75,7 +78,7 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 }
 
 void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
-	UIViewController *root_controller = (UIViewController *)((UIApplication *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
+	UIViewController *root_controller = (UIViewController*)[[(GodotApplicalitionDelegate*)[[UIApplication sharedApplication]delegate] window] rootViewController];
 	
 	NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
 	NSString * imagePath = [NSString stringWithCString:path.utf8().get_data() encoding:NSUTF8StringEncoding];
