@@ -65,7 +65,7 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 	NSArray * shareItems = @[message];
 
 	UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-	avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage];
+	avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage,UIActivityTypeSaveToCameraRoll];
 	//if iPhone
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 		[root_controller presentViewController:avc animated:YES completion:nil];
@@ -93,7 +93,7 @@ void AppShareDialog::share_image(const String &path, const String &title, const 
 	NSArray * shareItems = @[message, image];
 
 	UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-	avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage];
+	avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage,UIActivityTypeSaveToCameraRoll];
 	 //if iPhone
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 		[root_controller presentViewController:avc animated:YES completion:nil];
