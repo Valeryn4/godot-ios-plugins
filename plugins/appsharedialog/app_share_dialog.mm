@@ -66,6 +66,12 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 
 	UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
 	avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage,UIActivityTypeSaveToCameraRoll];
+	avc.popoverPresentationController.sourceRect = CGRectMake(
+		root_controller.view.frame.size.width/4, 
+		root_controller.view.frame.size.height/4, 
+		root_controller.view.frame.size.height/2, 
+		root_controller.view.frame.size.height/2
+	);
 	//if iPhone
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 		[root_controller presentViewController:avc animated:YES completion:nil];
@@ -76,7 +82,6 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 		
 		avc.modalPresentationStyle                   = UIModalPresentationPopover;
 		avc.popoverPresentationController.sourceView = root_controller.view;
-		avc.popoverPresentationController.sourceRect = CGRectMake(root_controller.view.frame.size.width/2, root_controller.view.frame.size.height/4, 0, 0);
 		[root_controller presentViewController:avc animated:YES completion:nil];
 		
 	}
@@ -94,6 +99,12 @@ void AppShareDialog::share_image(const String &path, const String &title, const 
 
 	UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
 	avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage,UIActivityTypeSaveToCameraRoll];
+	avc.popoverPresentationController.sourceRect = CGRectMake(
+		root_controller.view.frame.size.width/4, 
+		root_controller.view.frame.size.height/4, 
+		root_controller.view.frame.size.height/2, 
+		root_controller.view.frame.size.height/2
+	);
 	 //if iPhone
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 		[root_controller presentViewController:avc animated:YES completion:nil];
@@ -103,7 +114,6 @@ void AppShareDialog::share_image(const String &path, const String &title, const 
 		// Change Rect to position Popover
 		avc.modalPresentationStyle                   = UIModalPresentationPopover;
 		avc.popoverPresentationController.sourceView = root_controller.view;
-		avc.popoverPresentationController.sourceRect = CGRectMake(root_controller.view.frame.size.width/2, root_controller.view.frame.size.height/4, 0, 0);
 		[root_controller presentViewController:avc animated:YES completion:nil];
 	}
 }
