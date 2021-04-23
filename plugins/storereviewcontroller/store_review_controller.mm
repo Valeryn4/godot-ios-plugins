@@ -44,7 +44,7 @@ void StoreReviewController::_bind_methods() {
 void StoreReviewController::request_review() {
 	//ios 14+ 
 	if (@available(iOS 14.0, *)) {
-		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate]
+		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		UIWindow *window = (UIWindow *)[app window];
 		if (window != NULL) {
 			UIWindowScene *scene = (UIWindowScene *)[window windowScene];
