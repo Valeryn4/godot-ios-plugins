@@ -1,4 +1,4 @@
-# Godot iOS InAppStore plugin
+# Godot iOS AppShareDialog plugin
 
 ## Methods
 
