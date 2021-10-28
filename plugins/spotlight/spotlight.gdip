@@ -1,0 +1,17 @@
+[config]
+name="Spotlight"
+binary="spotlight.xcframework"
+
+initialization="godot_spotlight_init"
+deinitialization="godot_spotlight_deinit"
+
+[dependencies]
+linked=[]
+embedded=[]
+system=["CoreSpotlight.framework", "MobileCoreServices.framework"]
+
+capabilities=[]
+
+files=[]
+
+[plist]
