@@ -4,6 +4,20 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
+verbose='false'
+multithread='true'
+print_usage() {
+  printf "Usage: ..."
+}
+
+while getopts 'abf:v' flag; do
+  case "${flag}"
+    d) multithread=false ;;
+    v) verbose='true' ;;
+    *) print_usage ;;
+  esac
+done
+
 
 compile() {
 
@@ -24,10 +38,16 @@ compile() {
 echo "2) COMPILE PLUGINS"
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
-    compile $lib $1 &
+    if multithread; then
+        compile $lib $1 &
+    else
+        compile $lib $1
+    fi
 done
 
-wait
+if multithread; then
+    wait
+fi
 
 echo "3) MOVE FILES"
 # Move to release folder
@@ -37,12 +57,7 @@ mkdir -p ./bin/release
 # Move Plugin
 for lib in $GODOT_PLUGINS; do
     echo " - MOVE ${lib}"
-
-    if [ -e "./bin/release/${lib}" ]; then
-        rm -rf "./bin/release/${lib}"
-    fi
-
-    mkdir -p ./bin/release/${lib}
+    mkdir ./bin/release/${lib}
     mv -f ./bin/${lib}.{release,debug}.xcframework ./bin/release/${lib}
     cp -f ./plugins/${lib}/${lib}.gdip ./bin/release/${lib}
 done
