@@ -22,7 +22,7 @@ while test $# -gt 0; do
       exit 0
       ;;
     -t|--thread)
-      if [[$MULTITHREAD_ENABLE == true]]; then
+      if [[ $MULTITHREAD_ENABLE == true ]]; then
         shift
       else
         MULTITHREAD_ENABLE=true
