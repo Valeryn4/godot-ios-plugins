@@ -24,11 +24,19 @@ echo "LIPO ${1}"
 lipo -create "./bin/lib$1.x86_64-simulator.$2.a" "./bin/lib$1.arm64-simulator.$2.a" -output "./bin/$1-simulator.$2.a"
 lipo -create "./bin/lib$1.armv7-iphone.$2.a" "./bin/lib$1.arm64-iphone.$2.a" -output "./bin/$1-device.$2.a"
 
+
 echo "CREATE XCFRAMEWORK ${1}"
+
+OUTPUT_XCFRAMEWORK="./bin/$1.$2.xcframework"
+if [ -f OUTPUT_XCFRAMEWORK ]; then
+    echo "$OUTPUT_XCFRAMEWORK exists. Erace old result"
+    rm -rf $OUTPUT_XCFRAMEWORK
+fi
+
 # Creating a xcframework 
 xcodebuild -create-xcframework \
     -library "./bin/$1-device.$2.a" \
     -library "./bin/$1-simulator.$2.a" \
-    -output "./bin/$1.$2.xcframework"
+    -output $OUTPUT_XCFRAMEWORK
 
 echo "FINISH GENERATE XCFRAMEWORK ${1}"
