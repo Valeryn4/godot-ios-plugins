@@ -21,13 +21,8 @@ while test $# -gt 0; do
       echo "-g <version>,             godot version"
       exit 0
       ;;
-    -v|--verbose)
-      VERBOSE=true
-      echo "verbose: ${VERBOSE}"
-      shift
-      ;;
     -t|--thread)
-      if [[MULTITHREAD_ENABLE == true]]; then
+      if [[$MULTITHREAD_ENABLE == true]]; then
         shift
       else
         MULTITHREAD_ENABLE=true
