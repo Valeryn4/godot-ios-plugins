@@ -4,8 +4,10 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-verbose='false'
-multithread='true'
+verbose=false
+multithread=true
+GODOT_VERSION=''
+
 
 while test $# -gt 0; do
   case "$1" in
@@ -18,13 +20,28 @@ while test $# -gt 0; do
       echo "-h, --help                show brief help"
       echo "-v, --verbose             add debug output"
       echo "-d, --debug               single thread flag"
+      echo "-g, --godot=version       godot version"
       exit 0
       ;;
     -v|--verbose)
-      verbose='true'
+      verbose=true
       ;;
     --d|--debug)
-      multithread='false'
+      multithread=false
+      ;;
+    -a)
+      shift
+      if test $# -gt 0; then
+        GODOT_VERSION=$1
+      else
+        echo "no godot version specified"
+        exit 1
+      fi
+      shift
+      ;;
+    --action*)
+      GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
       ;;
     *)
       break
@@ -53,9 +70,9 @@ echo "2) COMPILE PLUGINS"
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
     if multithread; then
-        compile $lib $1 &
+        compile $lib $GODOT_VERSION &
     else
-        compile $lib $1
+        compile $lib $GODOT_VERSION
     fi
 done
 
