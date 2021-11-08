@@ -18,9 +18,8 @@ opts = Variables([], ARGUMENTS)
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
 
-print [name for name in os.listdir("./plugins/") if os.path.isdir(name)]
-
 plugins = os.listdir("./plugins/")
+print(plugins)
 
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['debug', 'release', "release_debug"]))
