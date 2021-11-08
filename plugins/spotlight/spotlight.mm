@@ -55,7 +55,7 @@ void Spotlight::set_search_item(Dictionary params) {
         String domain_identifier = params.get("domain_identifier", "");
         String titile = params.get("title", "");
         String content_description = params.get("content_description", "");
-        String img_path = params.get("image_path", "");
+        String image_path = params.get("image_path", "");
         Array keywords = params.get("keywords", Array());
 
         CSSearchableItemAttributeSet *attributeSet;
@@ -66,7 +66,13 @@ void Spotlight::set_search_item(Dictionary params) {
         else {
             attributeSet = [[CSSearchableItemAttributeSet alloc]
                                             initWithItemContentType:(NSString *)kUTTypeImage];
+            NSString *ns_img_path = [[NSString alloc] initWithUTF8String:img_path.utf8().get_data()];
+            UIImage *image = [UIImage imageWithContentsOfFile:ns_img_path];
+            NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
+            attributeSet.thumbnailData = imageData;
         }
+
+
         if (!titile.empty()) {
             NSString *ns_titile = [[NSString alloc] initWithUTF8String:titile.utf8().get_data()];
             attributeSet.title = ns_titile;
@@ -92,29 +98,20 @@ void Spotlight::set_search_item(Dictionary params) {
             NSLog(@"SPOTLIGHT:keywords is empty!");
         }
 
-        if (!img_path.empty()) {
-            NSString *ns_img_path = [[NSString alloc] initWithUTF8String:img_path.utf8().get_data()];
-            UIImage *image = [UIImage imageWithContentsOfFile:ns_img_path];
-            NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
-            attributeSet.thumbnailData = imageData;
-        }
-        else {
-            NSLog(@"SPOTLIGHT: Image path empty");
-        }
 
-        NSString *ns_unique_id = [[NSString alloc] initWithUTF8String:unique_identifier.utf8().get_data()];
+        NSString *ns_unique_identifier = [[NSString alloc] initWithUTF8String:unique_identifier.utf8().get_data()];
         NSString *ns_domain_identifier = [[NSString alloc] initWithUTF8String:domain_identifier.utf8().get_data()];
         if (domain_identifier.empty()) {
             NSLog(@"SPOTLIGHT: domain_identifier empty!");
         }
         
-        if (unique_id.empty() ) {
+        if (unique_identifier.empty()) {
             NSLog(@"SPOTLIGHT: unique_id is empty!");
         }
 
         CSSearchableItem *item = [[CSSearchableItem alloc]
-                                            initWithUniqueIdentifier:ns_unique_id
-                                                    domainIdentifier:ns_domain_id
+                                            initWithUniqueIdentifier:ns_unique_identifier
+                                                    domainIdentifier:ns_domain_identifier
                                                         attributeSet:attributeSet];
 
         [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item]
