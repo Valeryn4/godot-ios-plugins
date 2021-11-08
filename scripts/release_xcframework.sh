@@ -7,7 +7,7 @@ echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 echo "2) COMPILE PLUGINS"
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
-    echo " - GENERATE XCFRAMEWORK ${lib} ${1}"
+    echo " - GENERATE XCFRAMEWORKS ${lib} ${1}"
     ./scripts/generate_xcframework.sh $lib release $1
     ./scripts/generate_xcframework.sh $lib release_debug $1
     mv -f ./bin/${lib}.release_debug.xcframework ./bin/${lib}.debug.xcframework

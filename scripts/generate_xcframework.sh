@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "START GENERATE XCFRAMEWORK ${1}"
+
 # Compile static libraries
 
 echo "RUN SCONS ${1}"
@@ -28,3 +30,5 @@ xcodebuild -create-xcframework \
     -library "./bin/$1-device.$2.a" \
     -library "./bin/$1-simulator.$2.a" \
     -output "./bin/$1.$2.xcframework"
+
+echo "FINISH GENERATE XCFRAMEWORK ${1}"
