@@ -4,8 +4,7 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-VERBOSE='false'
-MULTITHREAD_ENABLE=true
+MULTITHREAD_ENABLE='false'
 GODOT_VERSION='oops'
 
 
@@ -18,8 +17,7 @@ while test $# -gt 0; do
       echo " "
       echo "options:"
       echo "-h, --help                show brief help"
-      echo "-v, --verbose             add debug output"
-      echo "-d, --debug               single thread flag"
+      echo "-t, --thread              multi thread flag"
       echo "-g <version>,             godot version"
       exit 0
       ;;
@@ -28,12 +26,15 @@ while test $# -gt 0; do
       echo "verbose: ${VERBOSE}"
       shift
       ;;
-    -d|--debug)
-      MULTITHREAD_ENABLE='false'
-      echo "multithread: ${MULTITHREAD_ENABLE}"
-      shift
+    -t|--thread)
+      if [[MULTITHREAD_ENABLE == true]]; then
+        shift
+      else
+        MULTITHREAD_ENABLE=true
+        echo "multithread: ${MULTITHREAD_ENABLE}"
+      fi
       ;;
-    -g)
+    -g|--godot)
       shift
       if test $# -gt 0; then
         GODOT_VERSION=$1
