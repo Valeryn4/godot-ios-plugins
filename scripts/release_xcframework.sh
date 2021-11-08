@@ -29,7 +29,7 @@ while test $# -gt 0; do
     --d|--debug)
       MULTITHREAD_ENABLE=false
       ;;
-    -a)
+    -g)
       shift
       if test $# -gt 0; then
         GODOT_VERSION=$1
@@ -39,7 +39,7 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    --action*)
+    --godot*)
       GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift
       ;;
