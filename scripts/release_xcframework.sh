@@ -26,8 +26,8 @@ while test $# -gt 0; do
     -v|--verbose)
       VERBOSE=true
       ;;
-    --d|--debug)
-      MULTITHREAD_ENABLE=0
+    -d|--debug)
+      MULTITHREAD_ENABLE=false
       ;;
     -g)
       shift
