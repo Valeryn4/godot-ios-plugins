@@ -11,7 +11,7 @@ for lib in $GODOT_PLUGINS; do
     ./scripts/generate_xcframework.sh $lib release $1
     ./scripts/generate_xcframework.sh $lib release_debug $1
 
-    if [-d "./bin/${lib}.debug.xcframework"] then;
+    if [-d "./bin/${lib}.debug.xcframework"]; then
         rm -rf "./bin/${lib}.debug.xcframework"
     fi
 
@@ -28,7 +28,7 @@ mkdir -p ./bin/release
 for lib in $GODOT_PLUGINS; do
     echo " - MOVE ${lib}"
 
-    if [-d "./bin/release/${lib}"] then;
+    if [-d "./bin/release/${lib}"]; then
         rm -rf "./bin/release/${lib}"
     fi
 
