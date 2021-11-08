@@ -4,9 +4,9 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-export VERBOSE=false
-export MULTITHREAD_ENABLE=true
-export GODOT_VERSION=''
+VERBOSE=false
+MULTITHREAD_ENABLE=true
+GODOT_VERSION='oops'
 
 
 while test $# -gt 0; do
@@ -24,15 +24,17 @@ while test $# -gt 0; do
       exit 0
       ;;
     -v|--verbose)
-      export VERBOSE=true
+      echo " VERBOSE ENABLE!"
+      VERBOSE=true
       ;;
     --d|--debug)
-      export MULTITHREAD_ENABLE=false
+      echo " DEBUG ENABLE!"
+      MULTITHREAD_ENABLE=0
       ;;
     -g)
       shift
       if test $# -gt 0; then
-        export GODOT_VERSION=$1
+        GODOT_VERSION=$1
       else
         echo "no godot version specified"
         exit 1
@@ -40,7 +42,7 @@ while test $# -gt 0; do
       shift
       ;;
     --godot*)
-      export GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
+      GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift
       ;;
     *)
