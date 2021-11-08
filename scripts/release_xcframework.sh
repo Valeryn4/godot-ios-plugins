@@ -20,16 +20,18 @@ while test $# -gt 0; do
       echo "-h, --help                show brief help"
       echo "-v, --verbose             add debug output"
       echo "-d, --debug               single thread flag"
-      echo "-g, --godot=version       godot version"
+      echo "-g <version>,             godot version"
       exit 0
       ;;
     -v|--verbose)
       VERBOSE=true
       echo "verbose: ${VERBOSE}"
+      shift
       ;;
     -d|--debug)
       MULTITHREAD_ENABLE='false'
       echo "multithread: ${MULTITHREAD_ENABLE}"
+      shift
       ;;
     -g)
       shift
@@ -40,11 +42,6 @@ while test $# -gt 0; do
         echo "no godot version specified"
         exit 1
       fi
-      shift
-      ;;
-    --godot*)
-      GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
-      echo "godot version: ${GODOT_VERSION}"
       shift
       ;;
     *)
