@@ -4,7 +4,7 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-VERBOSE=false
+VERBOSE=0
 MULTITHREAD_ENABLE=true
 GODOT_VERSION='oops'
 
@@ -24,11 +24,9 @@ while test $# -gt 0; do
       exit 0
       ;;
     -v|--verbose)
-      echo " VERBOSE ENABLE!"
       VERBOSE=true
       ;;
     --d|--debug)
-      echo " DEBUG ENABLE!"
       MULTITHREAD_ENABLE=0
       ;;
     -g)
@@ -51,6 +49,9 @@ while test $# -gt 0; do
   esac
 done
 
+echo "godot version: ${GODOT_VERSION}"
+echo "verbose: ${VERBOSE}"
+echo "multithread: ${MULTITHREAD_ENABLE}"
 
 compile() {
 
