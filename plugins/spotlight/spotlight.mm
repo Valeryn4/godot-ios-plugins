@@ -50,18 +50,23 @@ void Spotlight::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_search_item"), &Spotlight::set_search_item);
 }
 
-void Spotlight::set_search_item(Dictionary params) { // {unique_id: "id", domain_id: "id", title:"title", description: "description", keys: [keys]}
-        String unique_id = params.get("unique_id", "");
-        String domain_id = params.get("domain_id", "");
+void Spotlight::set_search_item(Dictionary params) {
+        String unique_identifier = params.get("unique_identifier", "");
+        String domain_identifier = params.get("domain_identifier", "");
         String titile = params.get("title", "");
-        String description = params.get("description", "");
-        String img_path = params.get("img_path", "");
-        Spotlight::GodotStringArrayT keys = params.get("keys", Spotlight::GodotStringArrayT());
+        String content_description = params.get("content_description", "");
+        String img_path = params.get("image_path", "");
+        Array keywords = params.get("keywords", Array());
 
         CSSearchableItemAttributeSet *attributeSet;
-        attributeSet = [[CSSearchableItemAttributeSet alloc]
-                                        initWithItemContentType:(NSString *)kUTTypeImage];
-
+        if (image_path.empty()) {
+            attributeSet = [[CSSearchableItemAttributeSet alloc]
+                                            initWithItemContentType:(NSString *)kUTTypeData];
+        }
+        else {
+            attributeSet = [[CSSearchableItemAttributeSet alloc]
+                                            initWithItemContentType:(NSString *)kUTTypeImage];
+        }
         if (!titile.empty()) {
             NSString *ns_titile = [[NSString alloc] initWithUTF8String:titile.utf8().get_data()];
             attributeSet.title = ns_titile;
@@ -70,15 +75,15 @@ void Spotlight::set_search_item(Dictionary params) { // {unique_id: "id", domain
             NSLog(@"SPOTLIGHT: title is empty!");
         }
 
-        if (!description.empty()) {
-            NSString *ns_description = [[NSString alloc] initWithUTF8String:unique_id.utf8().get_data()];
-            attributeSet.contentDescription = ns_description;
+        if (!content_description.empty()) {
+            NSString *ns_content_description = [[NSString alloc] initWithUTF8String:content_description.utf8().get_data()];
+            attributeSet.contentDescription = ns_content_description;
         }
 
-        if (!keys.empty()) {
-            NSMutableArray *ns_keys = [[NSMutableArray alloc] initWithCapacity:keys.size()];
-            for (int i = 0; i < keys.size(); i++) {
-                NSString *key = [[NSString alloc] initWithUTF8String:keys[i].utf8().get_data()];
+        if (!keywords.empty()) {
+            NSMutableArray *ns_keys = [[NSMutableArray alloc] initWithCapacity:keywords.size()];
+            for (int i = 0; i < keywords.size(); i++) {
+                NSString *key = [[NSString alloc] initWithUTF8String:keywords[i].utf8().get_data()];
                 [ns_keys addObject:key];
             }
             attributeSet.keywords = ns_keys;
@@ -97,12 +102,14 @@ void Spotlight::set_search_item(Dictionary params) { // {unique_id: "id", domain
             NSLog(@"SPOTLIGHT: Image path empty");
         }
 
-        NSString *ns_unique_id = [[NSString alloc] initWithUTF8String:unique_id.utf8().get_data()];
-        NSString *ns_domain_id = [[NSString alloc] initWithUTF8String:domain_id.utf8().get_data()];
+        NSString *ns_unique_id = [[NSString alloc] initWithUTF8String:unique_identifier.utf8().get_data()];
+        NSString *ns_domain_identifier = [[NSString alloc] initWithUTF8String:domain_identifier.utf8().get_data()];
+        if (domain_identifier.empty()) {
+            NSLog(@"SPOTLIGHT: domain_identifier empty!");
+        }
         
-        if (unique_id.empty() || domain_id.empty()) {
-            NSLog(@"SPOTLIGHT: unique_id or domaint_id is empty! break");
-            return;
+        if (unique_id.empty() ) {
+            NSLog(@"SPOTLIGHT: unique_id is empty!");
         }
 
         CSSearchableItem *item = [[CSSearchableItem alloc]
@@ -126,3 +133,4 @@ void Spotlight::set_search_item(Dictionary params) { // {unique_id: "id", domain
 Spotlight* Spotlight::get_singleton() {
     return instance;
 }
+

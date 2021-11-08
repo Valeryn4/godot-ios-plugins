@@ -89,23 +89,26 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 }
 
 void AppShareDialog::_share_image(const String &path, const String &title, const String &subject, const String &text) {
-    UIViewController *root_controller = (UIViewController*)[[(GodotApplicalitionDelegate*)[[UIApplication sharedApplication]delegate] window] rootViewController];
+    ViewController *root_controller = (ViewController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController;
     
     NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
     NSString * imagePath = [NSString stringWithCString:path.utf8().get_data() encoding:NSUTF8StringEncoding];
-
+    
     UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+    
+    if (!image) {
+        NSLog(@"AppShareDialog failed, image is null!");
+        return;
+    }
 
     NSArray * shareItems = @[message, image];
-
+    
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    avc.excludedActivityTypes = @[UIActivityTypePostToTwitter,UIActivityTypePostToFacebook,UIActivityTypeMessage,UIActivityTypeSaveToCameraRoll];
-    avc.popoverPresentationController.sourceRect = CGRectMake(
-        root_controller.view.frame.size.width/4,
-        root_controller.view.frame.size.height/4,
-        root_controller.view.frame.size.height/2,
-        root_controller.view.frame.size.height/2
-    );
+    if (!avc) {
+        NSLog(@"AppShareDialog failed!, avc alloc failed!");
+        return;
+    }
+     
      //if iPhone
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [root_controller presentViewController:avc animated:YES completion:nil];
@@ -113,31 +116,42 @@ void AppShareDialog::_share_image(const String &path, const String &title, const
     //if iPad
     else {
         // Change Rect to position Popover
-        avc.modalPresentationStyle                   = UIModalPresentationPopover;
-        avc.popoverPresentationController.sourceView = root_controller.view;
-        [root_controller presentViewController:avc animated:YES completion:nil];
+        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:avc];
+        [popup presentPopoverFromRect:CGRectMake(root_controller.view.frame.size.width/2, root_controller.view.frame.size.height/4, 0, 0)inView:root_controller.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 
 void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
-    UIViewController *root_controller = (UIViewController*)[[(GodotApplicalitionDelegate*)[[UIApplication sharedApplication]delegate] window] rootViewController];    PHAuthorizationStatus prevStatus = [PHPhotoLibrary authorizationStatus];
-
     if (@available(iOS 14, *)) {
+        NSLog(@"AppShareDialog ios 14+ avalible!");
         prevStatus = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelAddOnly];
 
         if (prevStatus == PHAuthorizationStatusNotDetermined) {
-            __weak typeof(root_controller) weakSelf = root_controller;
+            NSLog(@"AppShareDialog Status is 'Not Determined'");
             [PHPhotoLibrary requestAuthorizationForAccessLevel:(PHAccessLevelAddOnly) handler:^(PHAuthorizationStatus status) {
+                
+                NSLog(@"AppShareDialog request access level!");
                 if (status == PHAuthorizationStatusAuthorized) {
+                    NSLog(@"AppShareDialog success");
                     dispatch_async(dispatch_get_main_queue(), ^{
                         _share_image(path, title, subject, text);
                     });
                 }
+                else {
+                    
+                    NSLog(@"AppShareDialog denied! open without photo library");
+                    _share_image(path, title, subject, text);
+                }
             }];
             return;
         }
+        else {
+            NSLog(@"AppShareDialog Status is 'Determined', open share");
+            _share_image(path, title, subject, text);
+        }
     }
     else {
+        NSLog(@"AppShareDialog ios < 14 version!");
         _share_image(path, title, subject, text);
     }
 }

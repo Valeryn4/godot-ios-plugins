@@ -46,12 +46,7 @@ class Spotlight : public Object {
     static Spotlight *instance;
 
 public:
-    #if VERSION_MAJOR == 4
-    typedef PackedStringArray GodotStringArrayT;
-    #else
-    typedef PoolStringArray GodotStringArrayT;
-    #endif
-    void set_search_item(Dictionary params); // {unique_id: "id", domain_id: "id", title:"title", description: "description", keys: [keys]}
+    void set_search_item(Dictionary params); 
     
     static Spotlight *get_singleton();
     Spotlight();
