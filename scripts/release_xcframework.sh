@@ -4,8 +4,8 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-verbose=false
-multithread=true
+VERBOSE=false
+MULTITHREAD_ENABLE=true
 GODOT_VERSION=''
 
 
@@ -24,10 +24,10 @@ while test $# -gt 0; do
       exit 0
       ;;
     -v|--verbose)
-      verbose=true
+      VERBOSE=true
       ;;
     --d|--debug)
-      multithread=false
+      MULTITHREAD_ENABLE=false
       ;;
     -a)
       shift
@@ -69,14 +69,14 @@ compile() {
 echo "2) COMPILE PLUGINS"
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
-    if multithread; then
+    if [ $MULTITHREAD_ENABLE = true ]; then
         compile $lib $GODOT_VERSION &
     else
         compile $lib $GODOT_VERSION
     fi
 done
 
-if multithread; then
+if [ $MULTITHREAD_ENABLE = true ]; then
     wait
 fi
 
