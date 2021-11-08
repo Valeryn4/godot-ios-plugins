@@ -14,7 +14,7 @@ for lib in $GODOT_PLUGINS; do
     if [-d "./bin/${lib}.debug.xcframework"] then;
         rm -rf "./bin/${lib}.debug.xcframework"
     fi
-    
+
     mv -f ./bin/${lib}.release_debug.xcframework ./bin/${lib}.debug.xcframework
 done
 
@@ -27,6 +27,11 @@ mkdir -p ./bin/release
 # Move Plugin
 for lib in $GODOT_PLUGINS; do
     echo " - MOVE ${lib}"
+
+    if [-d "./bin/release/${lib}"] then;
+        rm -rf "./bin/release/${lib}"
+    fi
+
     mkdir -p ./bin/release/${lib}
     mv -f ./bin/${lib}.{release,debug}.xcframework ./bin/release/${lib}
     cp -f ./plugins/${lib}/${lib}.gdip ./bin/release/${lib}
