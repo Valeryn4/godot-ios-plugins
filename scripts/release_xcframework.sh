@@ -6,16 +6,29 @@ echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
 verbose='false'
 multithread='true'
-print_usage() {
-  printf "Usage: ..."
-}
 
-while getopts 'abf:v' flag; do
-  case "${flag}"
-    d) multithread=false ;;
-    v) verbose='true' ;;
-    h) echo "release_xcframework.sh 3.x|4.0 -d #debug singlethread\nrelease_xcframework.sh 3.x|4.0 #multithread" ;;
-    *) print_usage ;;
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      echo "$package - attempt to capture frames"
+      echo " "
+      echo "$package [options] application [arguments]"
+      echo " "
+      echo "options:"
+      echo "-h, --help                show brief help"
+      echo "-v, --verbose             add debug output"
+      echo "-d, --debug               single thread flag"
+      exit 0
+      ;;
+    -v|--verbose)
+      verbose='true'
+      ;;
+    --d|--debug)
+      multithread='false'
+      ;;
+    *)
+      break
+      ;;
   esac
 done
 
