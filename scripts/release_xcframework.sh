@@ -14,6 +14,7 @@ while getopts 'abf:v' flag; do
   case "${flag}"
     d) multithread=false ;;
     v) verbose='true' ;;
+    h) echo "release_xcframework.sh 3.x|4.0 -d #debug singlethread\nrelease_xcframework.sh 3.x|4.0 #multithread" ;;
     *) print_usage ;;
   esac
 done
