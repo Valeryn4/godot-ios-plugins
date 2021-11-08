@@ -117,15 +117,16 @@ void AppShareDialog::_share_image(const String &path, const String &title, const
     }
     //if iPad
     else {
-        // Change Rect to position Popover
-        UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:avc];
-        [popup presentPopoverFromRect:CGRectMake(root_controller.view.frame.size.width/2, root_controller.view.frame.size.height/4, 0, 0)inView:root_controller.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        avc.modalPresentationStyle                   = UIModalPresentationPopover;
+		avc.popoverPresentationController.sourceView = root_controller.view;
+		[root_controller presentViewController:avc animated:YES completion:nil];
     }
 }
 
 void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
     if (@available(iOS 14, *)) {
         NSLog(@"AppShareDialog ios 14+ avalible!");
+        PHAuthorizationStatus prevStatus = [PHPhotoLibrary authorizationStatus];
         prevStatus = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelAddOnly];
 
         if (prevStatus == PHAuthorizationStatusNotDetermined) {
