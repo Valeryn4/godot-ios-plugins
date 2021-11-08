@@ -24,7 +24,7 @@ opts.Add(EnumVariable('arch', "Compilation Architecture", '', ['', 'arm64', 'arm
 opts.Add(BoolVariable('simulator', "Compilation platform", 'no'))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'bin/'))
-opts.Add(PathVariable('plugin', 'Plugin to build', 'spotlight'))
+opts.Add(PathVariable('plugin', 'Plugin to build', ''))
 opts.Add(EnumVariable('version', 'Godot version to target', '', ['', '3.x', '4.0']))
 
 # Updates the environment with the option variables.
