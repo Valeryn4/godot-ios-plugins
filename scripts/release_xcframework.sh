@@ -25,14 +25,17 @@ while test $# -gt 0; do
       ;;
     -v|--verbose)
       VERBOSE=true
+      echo "verbose: ${VERBOSE}"
       ;;
     -d|--debug)
       MULTITHREAD_ENABLE='false'
+      echo "multithread: ${MULTITHREAD_ENABLE}"
       ;;
     -g)
       shift
       if test $# -gt 0; then
         GODOT_VERSION=$1
+        echo "godot version: ${GODOT_VERSION}"
       else
         echo "no godot version specified"
         exit 1
@@ -41,6 +44,7 @@ while test $# -gt 0; do
       ;;
     --godot*)
       GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
+      echo "godot version: ${GODOT_VERSION}"
       shift
       ;;
     *)
@@ -48,10 +52,6 @@ while test $# -gt 0; do
       ;;
   esac
 done
-
-echo "godot version: ${GODOT_VERSION}"
-echo "verbose: ${VERBOSE}"
-echo "multithread: ${MULTITHREAD_ENABLE}"
 
 compile() {
 
