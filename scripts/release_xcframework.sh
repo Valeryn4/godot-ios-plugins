@@ -10,6 +10,11 @@ for lib in $GODOT_PLUGINS; do
     echo " - GENERATE XCFRAMEWORKS ${lib} ${1}"
     ./scripts/generate_xcframework.sh $lib release $1
     ./scripts/generate_xcframework.sh $lib release_debug $1
+
+    if [-d "./bin/${lib}.debug.xcframework"] then;
+        rm -rf "./bin/${lib}.debug.xcframework"
+    fi
+    
     mv -f ./bin/${lib}.release_debug.xcframework ./bin/${lib}.debug.xcframework
 done
 
