@@ -66,7 +66,7 @@ void Spotlight::set_search_item(Dictionary params) {
         else {
             attributeSet = [[CSSearchableItemAttributeSet alloc]
                                             initWithItemContentType:(NSString *)kUTTypeImage];
-            NSString *ns_img_path = [[NSString alloc] initWithUTF8String:img_path.utf8().get_data()];
+            NSString *ns_img_path = [[NSString alloc] initWithUTF8String:image_path.utf8().get_data()];
             UIImage *image = [UIImage imageWithContentsOfFile:ns_img_path];
             NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
             attributeSet.thumbnailData = imageData;
