@@ -36,6 +36,13 @@
 #import <Foundation/Foundation.h>
 #import "platform/iphone/godot_app_delegate.h"
 
+#if VERSION_MAJOR == 4
+typedef PackedStringArray GodotStringArray;
+#else
+typedef PoolStringArray GodotStringArray;
+#endif
+
+
 Spotlight* Spotlight::instance = NULL;
 
 Spotlight::Spotlight() {
@@ -56,7 +63,7 @@ void Spotlight::set_search_item(Dictionary params) {
         String titile = params.get("title", "");
         String content_description = params.get("content_description", "");
         String image_path = params.get("image_path", "");
-        Array keywords = params.get("keywords", Array());
+        GodotStringArray keywords = params.get("keywords", GodotStringArray());
 
         CSSearchableItemAttributeSet *attributeSet;
         if (image_path.empty()) {
