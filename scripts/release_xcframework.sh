@@ -4,9 +4,9 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-VERBOSE=false
-MULTITHREAD_ENABLE=true
-GODOT_VERSION=''
+export VERBOSE=false
+export MULTITHREAD_ENABLE=true
+export GODOT_VERSION=''
 
 
 while test $# -gt 0; do
@@ -24,15 +24,15 @@ while test $# -gt 0; do
       exit 0
       ;;
     -v|--verbose)
-      VERBOSE=true
+      export VERBOSE=true
       ;;
     --d|--debug)
-      MULTITHREAD_ENABLE=false
+      export MULTITHREAD_ENABLE=false
       ;;
     -g)
       shift
       if test $# -gt 0; then
-        GODOT_VERSION=$1
+        export GODOT_VERSION=$1
       else
         echo "no godot version specified"
         exit 1
@@ -40,7 +40,7 @@ while test $# -gt 0; do
       shift
       ;;
     --godot*)
-      GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
+      export GODOT_VERSION=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift
       ;;
     *)
@@ -63,20 +63,20 @@ compile() {
         rm -rf "./bin/${PLUGIN_NAME}.debug.xcframework"
     fi
 
-    mv -f ./bin/${PLUGIN_NAME}.release_debug.xcframework ./bin/${PLUGIN_NAME}.debug.xcframework
+    mv ./bin/${PLUGIN_NAME}.release_debug.xcframework ./bin/${PLUGIN_NAME}.debug.xcframework
 } 
 
 echo "2) COMPILE PLUGINS"
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
-    if [ $MULTITHREAD_ENABLE = true ]; then
+    if [[ $MULTITHREAD_ENABLE == true ]]; then
         compile $lib $GODOT_VERSION &
     else
         compile $lib $GODOT_VERSION
     fi
 done
 
-if [ $MULTITHREAD_ENABLE = true ]; then
+if [[ $MULTITHREAD_ENABLE == true ]]; then
     wait
 fi
 
@@ -88,7 +88,7 @@ mkdir -p ./bin/release
 # Move Plugin
 for lib in $GODOT_PLUGINS; do
     echo " - MOVE ${lib}"
-    mkdir ./bin/release/${lib}
-    mv -f ./bin/${lib}.{release,debug}.xcframework ./bin/release/${lib}
-    cp -f ./plugins/${lib}/${lib}.gdip ./bin/release/${lib}
+    mkdir -p ./bin/release/${lib}
+    mv ./bin/${lib}.{release,debug}.xcframework ./bin/release/${lib}
+    cp ./plugins/${lib}/${lib}.gdip ./bin/release/${lib}
 done
