@@ -2,7 +2,7 @@
 set -e
 
 GODOT_PLUGINS=(find ./plugins/ -type d -printf '%f ')
-GODOT_PLUGINS=(echo ${GODOT_PLUGINS//plugins\//})
+#GODOT_PLUGINS=(echo ${GODOT_PLUGINS//plugins\//})
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
 echo "2) COMPILE PLUGINS"
