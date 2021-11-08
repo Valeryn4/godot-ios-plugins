@@ -8,7 +8,7 @@ deinitialization="godot_spotlight_deinit"
 [dependencies]
 linked=[]
 embedded=[]
-system=["CoreSpotlight.framework", "MobileCoreServices.framework"]
+system=["CoreSpotlight.framework", "MobileCoreServices.framework", "StoreKit.framework"]
 
 capabilities=[]
 

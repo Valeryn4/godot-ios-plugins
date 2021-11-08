@@ -40,31 +40,22 @@
 #endif
 
 class Spotlight : public Object {
-public:
-#if VERSION_MAJOR == 4
-typedef PackedStringArray GodotStringArrayT;
-#else
-typedef PoolStringArray GodotStringArrayT;
-#endif
-
-
-private:
 	GDCLASS(Spotlight, Object);
 
 	static void _bind_methods();
+    static Spotlight *instance;
 
 public:
-
-    void set_search_item(
-        const String &unique_id, 
-        const String &domain_id, 
-        const String &titile, 
-        const String &description, 
-        const String &img_path, 
-        const GodotStringArrayT &keys);
-
+    #if VERSION_MAJOR == 4
+    typedef PackedStringArray GodotStringArrayT;
+    #else
+    typedef PoolStringArray GodotStringArrayT;
+    #endif
+    void set_search_item(Dictionary params); // {unique_id: "id", domain_id: "id", title:"title", description: "description", keys: [keys]}
+    
+    static Spotlight *get_singleton();
     Spotlight();
     ~Spotlight();
-}
+};
 
 #endif

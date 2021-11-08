@@ -33,27 +33,30 @@
 
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <Foundation/Foundation.h>
+#import "platform/iphone/godot_app_delegate.h"
 
+Spotlight* Spotlight::instance = NULL;
 
 Spotlight::Spotlight() {
-
+    ERR_FAIL_COND(instance != NULL);
+    instance = this;
 }
 
 Spotlight::~Spotlight() {
-
 }
 
 void Spotlight::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_search_item"), &InAppStore::set_search_item);
+    ClassDB::bind_method(D_METHOD("set_search_item"), &Spotlight::set_search_item);
 }
 
-void Spotlight::set_search_item(
-    const String &unique_id, 
-    const String &domain_id, 
-    const String &titile, 
-    const String &description, 
-    const String &img_path,
-    const Spotlight::GodotStringArrayT &keys) {
+void Spotlight::set_search_item(Dictionary params) { // {unique_id: "id", domain_id: "id", title:"title", description: "description", keys: [keys]}
+        String unique_id = params.get("unique_id", "");
+        String domain_id = params.get("domain_id", "");
+        String titile = params.get("title", "");
+        String description = params.get("description", "");
+        String img_path = params.get("img_path", "");
+        Spotlight::GodotStringArrayT keys = params.get("keys", Spotlight::GodotStringArrayT());
 
         CSSearchableItemAttributeSet *attributeSet;
         attributeSet = [[CSSearchableItemAttributeSet alloc]
@@ -64,7 +67,7 @@ void Spotlight::set_search_item(
             attributeSet.title = ns_titile;
         }
         else {
-            WARN_PRINT("title is empty!");
+            NSLog(@"SPOTLIGHT: title is empty!");
         }
 
         if (!description.empty()) {
@@ -81,7 +84,7 @@ void Spotlight::set_search_item(
             attributeSet.keywords = ns_keys;
         }
         else {
-            WARN_PRINT("keywords is empty!");
+            NSLog(@"SPOTLIGHT:keywords is empty!");
         }
 
         if (!img_path.empty()) {
@@ -90,13 +93,16 @@ void Spotlight::set_search_item(
             NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
             attributeSet.thumbnailData = imageData;
         }
+        else {
+            NSLog(@"SPOTLIGHT: Image path empty");
+        }
 
         NSString *ns_unique_id = [[NSString alloc] initWithUTF8String:unique_id.utf8().get_data()];
         NSString *ns_domain_id = [[NSString alloc] initWithUTF8String:domain_id.utf8().get_data()];
         
         if (unique_id.empty() || domain_id.empty()) {
-            WARN_PRINT("unique_id or domaint_id is empty!");
-            return
+            NSLog(@"SPOTLIGHT: unique_id or domaint_id is empty! break");
+            return;
         }
 
         CSSearchableItem *item = [[CSSearchableItem alloc]
@@ -107,11 +113,16 @@ void Spotlight::set_search_item(
         [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:@[item]
                                         completionHandler: ^(NSError * __nullable error) {
             if (!error) {
-                NSLog(@"Search item indexed");
+                NSLog(@"SPOTLIGHT: Search item indexed");
             }
             else {
-                WARN_PRINT("Search item indexed failed!");
+                NSLog(@"SPOTLIGHT: Search item indexed failed!");
             }
         }];
 
+}
+
+
+Spotlight* Spotlight::get_singleton() {
+    return instance;
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GODOT_PLUGINS="gamecenter inappstore icloud camera arkit apn photo_picker"
+GODOT_PLUGINS="spotlight"
 
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do

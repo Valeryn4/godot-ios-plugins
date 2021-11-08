@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-GODOT_PLUGINS="gamecenter inappstore icloud camera arkit apn photo_picker storereviewcontroller appsharedialog"
+GODOT_PLUGINS=(find ./plugins/ -type d -printf '%f ')
+GODOT_PLUGINS=(echo ${GODOT_PLUGINS//plugins\//})
 
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do

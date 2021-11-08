@@ -46,6 +46,7 @@ class AppShareDialog : public Object {
 
 	static AppShareDialog *instance;
 	static void _bind_methods();
+    void _share_image(const String &path, const String &title, const String &subject, const String &text);
 
 public:
 	void share_text(const String &title, const String &subject, const String &text);
