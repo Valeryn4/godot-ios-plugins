@@ -4,7 +4,7 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
-VERBOSE=0
+VERBOSE='false'
 MULTITHREAD_ENABLE=true
 GODOT_VERSION='oops'
 
@@ -27,7 +27,7 @@ while test $# -gt 0; do
       VERBOSE=true
       ;;
     -d|--debug)
-      MULTITHREAD_ENABLE=false
+      MULTITHREAD_ENABLE='false'
       ;;
     -g)
       shift
