@@ -28,7 +28,7 @@ lipo -create "./bin/lib$1.armv7-iphone.$2.a" "./bin/lib$1.arm64-iphone.$2.a" -ou
 echo "CREATE XCFRAMEWORK ${1}"
 
 OUTPUT_XCFRAMEWORK="./bin/$1.$2.xcframework"
-if [ -f $OUTPUT_XCFRAMEWORK ]; then
+if [ -d $OUTPUT_XCFRAMEWORK ]; then
     echo "$OUTPUT_XCFRAMEWORK exists. Erace old result"
     rm -rf $OUTPUT_XCFRAMEWORK
 fi
