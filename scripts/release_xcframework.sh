@@ -4,20 +4,30 @@ set -e
 GODOT_PLUGINS=$(ls -d ./plugins/* | cut -f3 -d'/')
 echo "1) PLUGINS LIST: ${GODOT_PLUGINS}"
 
+
+compile() {
+
+    local PLUGIN_NAME=$1
+    local GODOT_VER=$2
+
+    echo " - GENERATE XCFRAMEWORKS ${PLUGIN_NAME} ${GODOT_VER}"
+    ./scripts/generate_xcframework.sh $PLUGIN_NAME release $GODOT_VER
+    ./scripts/generate_xcframework.sh $PLUGIN_NAME release_debug $GODOT_VER
+
+    if [ -e "./bin/${PLUGIN_NAME}.debug.xcframework" ]; then
+        rm -rf "./bin/${PLUGIN_NAME}.debug.xcframework"
+    fi
+
+    mv -f ./bin/${PLUGIN_NAME}.release_debug.xcframework ./bin/${PLUGIN_NAME}.debug.xcframework
+} 
+
 echo "2) COMPILE PLUGINS"
 # Compile Plugin
 for lib in $GODOT_PLUGINS; do
-    echo " - GENERATE XCFRAMEWORKS ${lib} ${1}"
-    ./scripts/generate_xcframework.sh $lib release $1
-    ./scripts/generate_xcframework.sh $lib release_debug $1
-
-    if [ -e "./bin/${lib}.debug.xcframework" ]; then
-        rm -rf "./bin/${lib}.debug.xcframework"
-    fi
-
-    mv -f ./bin/${lib}.release_debug.xcframework ./bin/${lib}.debug.xcframework
+    compile $lib $1 &
 done
 
+wait
 
 echo "3) MOVE FILES"
 # Move to release folder
