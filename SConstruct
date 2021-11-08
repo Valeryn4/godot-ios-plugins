@@ -18,7 +18,7 @@ opts = Variables([], ARGUMENTS)
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
 
-plugins = os.listdir("./plugins/")
+plugins = next(os.walk('./plugins/'))[1] #os.listdir("./plugins/")
 print(plugins)
 
 # Define our options
