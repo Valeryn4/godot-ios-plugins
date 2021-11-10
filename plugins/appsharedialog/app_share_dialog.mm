@@ -135,7 +135,7 @@ void AppShareDialog::share_image(String path, String title, String subject, Stri
     NSLog(@"AppShareDialog: share image");
     NSLog(@"AppShareDialog: args [%@]", ns_text_print);
 
-    if (@available(iOS 12, *)) {
+    if (@available(iOS 14, *)) {
         NSLog(@"AppShareDialog: ios 12+ avalible!");
         PHAuthorizationStatus prevStatus = [PHPhotoLibrary authorizationStatus];
         prevStatus = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelAddOnly];
