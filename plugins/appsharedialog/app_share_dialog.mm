@@ -130,11 +130,10 @@ void AppShareDialog::_share_image(String path, String title, String subject, Str
 }
 
 void AppShareDialog::share_image(String path, String title, String subject, String text) {
+    String text_print = String(path + ", " + title + ", " + subject + ", " + text)
+    NSString* ns_text_print = [NSString stringWithCString:text_print.utf8().get_data() encoding:NSUTF8StringEncoding];
     NSLog(@"AppShareDialog: share image");
-    NSLog(@"AppShareDialog: path %@", path);
-    NSLog(@"AppShareDialog: titel %@", title);
-    NSLog(@"AppShareDialog: subject %@", subject);
-    NSLog(@"AppShareDialog: text %@", text);
+    NSLog(@"AppShareDialog: args [%@]", ns_text_print);
 
     if (@available(iOS 12, *)) {
         NSLog(@"AppShareDialog: ios 12+ avalible!");
