@@ -94,29 +94,35 @@ void AppShareDialog::_share_image(const String &path, const String &title, const
 	
     
     NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
+    NSLog(@"AppShareDialog: messedge '%@'", message);
     NSString * imagePath = [NSString stringWithCString:path.utf8().get_data() encoding:NSUTF8StringEncoding];
-    
+    NSLog(@"AppShareDialog: image path '%@'", imagePath);
     UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
     
-    if (!image) {
-        NSLog(@"AppShareDialog failed, image is null!");
+    if (image == nil) {
+        NSLog(@"AppShareDialog: failed, image is null!");
         return;
     }
 
     NSArray * shareItems = @[message, image];
-    
+    NSLog(@"AppShareDialog: share items created [message, image]!");
+
     UIActivityViewController * avc = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
-    if (!avc) {
+    NSLog(@"AppShareDialog: avc inited!");
+
+    if (avc == nil) {
         NSLog(@"AppShareDialog failed!, avc alloc failed!");
         return;
     }
      
      //if iPhone
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        NSLog(@"AppShareDialog: iphone save dialog");
         [root_controller presentViewController:avc animated:YES completion:nil];
     }
     //if iPad
     else {
+        NSLog(@"AppShareDialog: ipad save dialog");
         avc.modalPresentationStyle                   = UIModalPresentationPopover;
 		avc.popoverPresentationController.sourceView = root_controller.view;
 		[root_controller presentViewController:avc animated:YES completion:nil];
@@ -124,8 +130,8 @@ void AppShareDialog::_share_image(const String &path, const String &title, const
 }
 
 void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
-    if (@available(iOS 14, *)) {
-        NSLog(@"AppShareDialog ios 14+ avalible!");
+    if (@available(iOS 12, *)) {
+        NSLog(@"AppShareDialog: ios 12+ avalible!");
         PHAuthorizationStatus prevStatus = [PHPhotoLibrary authorizationStatus];
         prevStatus = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelAddOnly];
 
@@ -133,28 +139,29 @@ void AppShareDialog::share_image(const String &path, const String &title, const 
             NSLog(@"AppShareDialog Status is 'Not Determined'");
             [PHPhotoLibrary requestAuthorizationForAccessLevel:(PHAccessLevelAddOnly) handler:^(PHAuthorizationStatus status) {
                 
-                NSLog(@"AppShareDialog request access level!");
+                NSLog(@"AppShareDialog: request access level!");
                 if (status == PHAuthorizationStatusAuthorized) {
-                    NSLog(@"AppShareDialog success");
+                    NSLog(@"AppShareDialog: success");
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        NSLog(@"AppShareDialog: share image");
                         _share_image(path, title, subject, text);
                     });
                 }
                 else {
                     
-                    NSLog(@"AppShareDialog denied! open without photo library");
+                    NSLog(@"AppShareDialog: denied! open without photo library");
                     _share_image(path, title, subject, text);
                 }
             }];
             return;
         }
         else {
-            NSLog(@"AppShareDialog Status is 'Determined', open share");
+            NSLog(@"AppShareDialog: Status is 'Determined', open share");
             _share_image(path, title, subject, text);
         }
     }
     else {
-        NSLog(@"AppShareDialog ios < 14 version!");
+        NSLog(@"AppShareDialog: ios < 12 version!");
         _share_image(path, title, subject, text);
     }
 }
