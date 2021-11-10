@@ -46,11 +46,11 @@ class AppShareDialog : public Object {
 
 	static AppShareDialog *instance;
 	static void _bind_methods();
-    void _share_image(const String &path, const String &title, const String &subject, const String &text);
+    void _share_image(String path, String title, String subject, String text);
 
 public:
-	void share_text(const String &title, const String &subject, const String &text);
-	void share_image(const String &path, const String &title, const String &subject, const String &text);
+	void share_text(String title, String subject, String text);
+	void share_image(String path, String title, String subject, String text);
 
 	static AppShareDialog *get_singleton();
 

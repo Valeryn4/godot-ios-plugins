@@ -56,7 +56,7 @@ AppShareDialog::AppShareDialog() {
 AppShareDialog::~AppShareDialog() {
 }
 
-void AppShareDialog::share_text(const String &title, const String &subject, const String &text) {
+void AppShareDialog::share_text(String title, String subject, String text) {
 
 	UIViewController *root_controller = (UIViewController*)[[(GodotApplicalitionDelegate*)[[UIApplication sharedApplication]delegate] window] rootViewController];
 	//UIViewController *root_controller = [UIApplication sharedApplication].keyWindow.rootViewController;
@@ -88,7 +88,7 @@ void AppShareDialog::share_text(const String &title, const String &subject, cons
 	}
 }
 
-void AppShareDialog::_share_image(const String &path, const String &title, const String &subject, const String &text) {
+void AppShareDialog::_share_image(String path, String title, String subject, String text) {
     UIViewController *root_controller = (UIViewController*)[
         [(GodotApplicalitionDelegate*)[[UIApplication sharedApplication] delegate] window] rootViewController];
 	
@@ -129,7 +129,13 @@ void AppShareDialog::_share_image(const String &path, const String &title, const
     }
 }
 
-void AppShareDialog::share_image(const String &path, const String &title, const String &subject, const String &text) {
+void AppShareDialog::share_image(String path, String title, String subject, String text) {
+    NSLog(@"AppShareDialog: share image");
+    NSLog(@"AppShareDialog: path %@", path);
+    NSLog(@"AppShareDialog: titel %@", title);
+    NSLog(@"AppShareDialog: subject %@", subject);
+    NSLog(@"AppShareDialog: text %@", text);
+
     if (@available(iOS 12, *)) {
         NSLog(@"AppShareDialog: ios 12+ avalible!");
         PHAuthorizationStatus prevStatus = [PHPhotoLibrary authorizationStatus];
