@@ -91,7 +91,7 @@ void AppShareDialog::share_text(String title, String subject, String text) {
 void AppShareDialog::_share_image(String path, String title, String subject, String text) {
     UIViewController *root_controller = (UIViewController*)[
         [(GodotApplicalitionDelegate*)[[UIApplication sharedApplication] delegate] window] rootViewController];
-	
+	NSLog(@"AppShareDialog: get root comtroller");
     
     NSString * message = [NSString stringWithCString:text.utf8().get_data() encoding:NSUTF8StringEncoding];
     NSLog(@"AppShareDialog: messedge '%@'", message);
