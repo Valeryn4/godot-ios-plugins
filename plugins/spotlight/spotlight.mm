@@ -63,7 +63,10 @@ void Spotlight::set_search_item(Dictionary params) {
         String titile = params.get("title", "");
         String content_description = params.get("content_description", "");
         String image_path = params.get("image_path", "");
+        String display_name = params.get("display_name", ""); 
         GodotStringArray keywords = params.get("keywords", GodotStringArray());
+        int raiting = params.get("rating", -1);
+        int play_count = params.get("play_count", -1);
 
         CSSearchableItemAttributeSet *attributeSet;
         if (image_path.empty()) {
@@ -105,6 +108,18 @@ void Spotlight::set_search_item(Dictionary params) {
             NSLog(@"SPOTLIGHT:keywords is empty!");
         }
 
+        if (raiting != -1) {
+            attributeSet.raiting = @(raiting);
+        }
+
+        if (play_count != -1) {
+            attributeSet.playCount = @(play_count);
+        }
+
+        if (!display_name.empty()) {
+            NSString* ns_display_name = [[NSString alloc] initWithUTF8String:display_name.utf8().get_data()];
+            attributeSet.displayName = ns_display_name; 
+        }
 
         NSString *ns_unique_identifier = [[NSString alloc] initWithUTF8String:unique_identifier.utf8().get_data()];
         NSString *ns_domain_identifier = [[NSString alloc] initWithUTF8String:domain_identifier.utf8().get_data()];

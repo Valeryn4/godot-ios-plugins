@@ -10,7 +10,7 @@
 
 #include "spotlight.h"
 
-Spotlight *spotlight;
+static Spotlight *spotlight = NULL;
 
 void godot_spotlight_init()
 {
