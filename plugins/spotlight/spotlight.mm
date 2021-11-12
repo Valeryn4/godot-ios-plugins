@@ -109,7 +109,7 @@ void Spotlight::set_search_item(Dictionary params) {
         }
 
         if (raiting != -1) {
-            attributeSet.raiting = @(raiting);
+            attributeSet.rating = @(raiting);
         }
 
         if (play_count != -1) {
