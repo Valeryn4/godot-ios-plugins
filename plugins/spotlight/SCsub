@@ -4,7 +4,7 @@ Import("env")
 Import("env_modules")
 
 env_spotlight = env_modules.Clone()
-env_inappstore.Append(CCFLAGS=["-fmodules", "-fcxx-modules"])
+env_spotlight.Append(CCFLAGS=["-fmodules", "-fcxx-modules"])
 
 if env["platform"] == "osx":
     env_spotlight.add_source_files(env.modules_sources, "*.mm")
