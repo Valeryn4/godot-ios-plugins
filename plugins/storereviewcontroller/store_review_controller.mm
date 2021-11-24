@@ -32,7 +32,13 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
-#import "platform/iphone/app_delegate.h"
+
+
+#if defined(OSX_ENABLED)
+	//#import "platform/iphone/app_delegate.h"
+#else
+	#import "platform/iphone/app_delegate.h"
+#endif
 
 StoreReviewController *StoreReviewController::instance = NULL;
 
@@ -42,6 +48,10 @@ void StoreReviewController::_bind_methods() {
 }
 
 void StoreReviewController::request_review() {
+
+#if defined(OSX_ENABLED)
+	[SKStoreReviewController requestReview];
+#else
 	//ios 14+ 
 	if (@available(iOS 14.0, *)) {
 		AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -70,6 +80,7 @@ void StoreReviewController::request_review() {
 		[SKStoreReviewController requestReview];
 		printf("request reviewed! old variant\n");
 	}
+#endif
 }
 
 
