@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+Import("env")
+Import("env_modules")
+
+env_inappstore = env_modules.Clone()
+
+# (OSX) Enable module support
+env_inappstore.Append(CCFLAGS=["-fmodules", "-fcxx-modules"])
+
+# (OSX) Build as separate static library
+modules_sources = []
+env_inappstore.add_source_files(modules_sources, "*.mm")
+env_inappstore.add_source_files(modules_sources, "*.cpp")

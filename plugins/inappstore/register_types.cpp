@@ -28,7 +28,7 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#include "in_app_store_module.h"
+#include "register_types.h"
 
 #include "core/version.h"
 
@@ -40,7 +40,7 @@
 
 #include "in_app_store.h"
 
-InAppStore *store_kit;
+static InAppStore *store_kit = NULL;
 
 void register_inappstore_types() {
 	store_kit = memnew(InAppStore);

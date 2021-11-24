@@ -28,7 +28,7 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#include "store_review_controller_module.h"
+#include "register_types.h"
 
 #include "core/version.h"
 
@@ -40,7 +40,7 @@
 
 #include "store_review_controller.h"
 
-StoreReviewController *store_review_controller;
+static StoreReviewController *store_review_controller = NULL;
 
 void register_storereviewcontroller_types() {
 	store_review_controller = memnew(StoreReviewController);
