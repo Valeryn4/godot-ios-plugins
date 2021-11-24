@@ -63,6 +63,23 @@ void Spotlight::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_search_item"), &Spotlight::set_search_item);
 }
 
+#if defined(OSX_ENABLED)
+
+NSImage* _get_image_from_path_osx(NSString* path) {
+    NSArray *imageReps = [NSBitmapImageRep imageRepsWithContentsOfFile:path];
+    NSInteger width = 0;
+    NSInteger height = 0;
+    for (NSImageRep * imageRep in imageReps) {
+        if ([imageRep pixelsWide] > width) width = [imageRep pixelsWide];
+        if ([imageRep pixelsHigh] > height) height = [imageRep pixelsHigh];
+    }
+    NSImage *imageNSImage = [[NSImage alloc] initWithSize:NSMakeSize((CGFloat)width, (CGFloat)height)];
+    [imageNSImage addRepresentations:imageReps];
+    return imageNSImage;
+}
+
+#endif
+
 void Spotlight::set_search_item(Dictionary params) {
         String unique_identifier = params.get("unique_identifier", "");
         String domain_identifier = params.get("domain_identifier", "");
@@ -84,7 +101,7 @@ void Spotlight::set_search_item(Dictionary params) {
                                             initWithItemContentType:(NSString *)kUTTypeImage];
             NSString *ns_img_path = [[NSString alloc] initWithUTF8String:image_path.utf8().get_data()];
 			#if defined(OSX_ENABLED)
-				NSImage *image = [NSImage initWithContentsOfFile:ns_img_path];
+				NSImage *image = _get_image_from_path_osx(ns_img_path);
 				NSData *imageData = [image TIFFRepresentation];
             #else
 				UIImage *image = [UIImage imageWithContentsOfFile:ns_img_path];
