@@ -35,11 +35,9 @@
 
 #if defined(OSX_ENABLED)
 	#import <AppKit/AppKit.h>
-	typedef NSImage AppImage;
 #else
 	#import "platform/iphone/godot_app_delegate.h"
 	#import <UIKit/UIKit.h>
-	typedef UIImage AppImage
 #endif
 
 #import <Foundation/Foundation.h>
@@ -86,12 +84,13 @@ void Spotlight::set_search_item(Dictionary params) {
                                             initWithItemContentType:(NSString *)kUTTypeImage];
             NSString *ns_img_path = [[NSString alloc] initWithUTF8String:image_path.utf8().get_data()];
 			#if defined(OSX_ENABLED)
-				AppImage *image = [AppImage imageWithContentsOfFile:ns_img_path];
+				NSImage *image = [NSImage imageWithContentsOfFile:ns_img_path];
+				NSData *imageData = [image TIFFRepresentation];
             #else
-				AppImage *image = [AppImage initWithContentsOfFile:ns_img_path];
+				UIImage *image = [UIImage initWithContentsOfFile:ns_img_path];
+				NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
 			#endif
 			
-			NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
             attributeSet.thumbnailData = imageData;
         }
 
