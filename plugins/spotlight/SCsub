@@ -5,10 +5,6 @@ Import("env_modules")
 
 env_spotlight = env_modules.Clone()
 
-# (OSX) Enable module support
-env_spotlight.Append(CCFLAGS=["-fmodules", "-fcxx-modules"])
-
-# (OSX) Build as separate static library
-modules_sources = []
-env_spotlight.add_source_files(modules_sources, "*.mm")
-env_spotlight.add_source_files(modules_sources, "*.cpp")
+if env["platform"] == "osx":
+    env_spotlight.add_source_files(env.modules_sources, "*.mm")
+    env_spotlight.add_source_files(env.modules_sources, "*.cpp")
