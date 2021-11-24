@@ -272,9 +272,16 @@ InAppStore *InAppStore::instance = NULL;
 
 				ret["transaction_id"] = transactionId;
 
-				NSData *receipt = nil;
-				int sdk_version = [[[UIDevice currentDevice] systemVersion] intValue];
-
+				NSData *receipt = nil;				
+				int sdk_version = -1;
+				
+				
+				#if defined(OSX_ENABLED)
+					sdk_version = 0;
+				#else
+					sdk_version = [[[UIDevice currentDevice] systemVersion] intValue];
+				#endif
+				
 				NSBundle *bundle = [NSBundle mainBundle];
 				// Get the transaction receipt file path location in the app bundle.
 				NSURL *receiptFileURL = [bundle appStoreReceiptURL];
@@ -314,7 +321,13 @@ InAppStore *InAppStore::instance = NULL;
 				ret["transaction_id"] = transactionId;
 
 				NSData *receipt = nil;
-				int sdk_version = [[[UIDevice currentDevice] systemVersion] intValue];
+				int sdk_version = -1;
+				
+				#if defined(OSX_ENABLED)
+					sdk_version = 0;
+				#else
+					sdk_version = [[[UIDevice currentDevice] systemVersion] intValue];
+				#endif
 
 				NSBundle *bundle = [NSBundle mainBundle];
 				// Get the transaction receipt file path location in the app bundle.

@@ -32,7 +32,7 @@
 
 
 #import <CoreSpotlight/CoreSpotlight.h>
-#import <MobileCoreServices/MobileCoreServices.h>
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "platform/iphone/godot_app_delegate.h"
 
