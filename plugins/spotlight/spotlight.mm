@@ -37,12 +37,12 @@
 	#import <AppKit/AppKit.h>
 	typedef NSImage AppImage;
 #else
+	#import "platform/iphone/godot_app_delegate.h"
 	#import <UIKit/UIKit.h>
 	typedef UIImage AppImage
 #endif
 
 #import <Foundation/Foundation.h>
-#import "platform/iphone/godot_app_delegate.h"
 
 #if VERSION_MAJOR == 4
 typedef PackedStringArray GodotStringArray;
