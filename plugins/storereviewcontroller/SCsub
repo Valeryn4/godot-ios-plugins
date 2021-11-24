@@ -4,6 +4,7 @@ Import("env")
 Import("env_modules")
 
 env_storereviewcontroller = env_modules.Clone()
+env_inappstore.Append(CCFLAGS=["-fmodules", "-fcxx-modules"])
 
 if env["platform"] == "osx":
     env_storereviewcontroller.add_source_files(env.modules_sources, "*.mm")
