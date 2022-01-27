@@ -40,14 +40,13 @@
 
 #include "in_app_store.h"
 
-static InAppStore *store_kit = NULL;
-
 void register_inappstore_types() {
-	store_kit = memnew(InAppStore);
+	InAppStore* store_kit = memnew(InAppStore);
 	Engine::get_singleton()->add_singleton(Engine::Singleton("InAppStore", store_kit));
 }
 
 void unregister_inappstore_types() {
+	InAppStore* store_kit = InAppStore::get_singleton();
 	if (store_kit) {
 		memdelete(store_kit);
 	}
