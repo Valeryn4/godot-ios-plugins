@@ -28,7 +28,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#include "godot_apple_event_delegate.h"
 #include "godot_apple_event.h"
 #include "core/engine.h"
 
