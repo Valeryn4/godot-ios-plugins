@@ -18,6 +18,6 @@ void GodotAppleEvent::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("event_open_url", PropertyInfo(Variant::STRING, "url")));
 }
 
-void open_url(String url) {
+void GodotAppleEvent::open_url(String url) {
 	emit_signal("event_open_url", url);
 }

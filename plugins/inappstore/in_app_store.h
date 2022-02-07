@@ -51,7 +51,6 @@ typedef void InAppStoreTransactionObserver;
 #endif
 
 class InAppStore : public Object {
-
 	GDCLASS(InAppStore, Object);
 
 	static InAppStore *instance;

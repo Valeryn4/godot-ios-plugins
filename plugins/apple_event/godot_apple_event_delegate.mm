@@ -49,11 +49,6 @@ static AppleEventInitializer initializer;
 
 - (instancetype)init {
 	self = [super init];
-
-	if (self) {
-		UNUserNotificationCenter.currentNotificationCenter.delegate = [GodotUserNotificationDelegate shared];
-	}
-
 	return self;
 }
 
@@ -66,16 +61,17 @@ static AppleEventInitializer initializer;
 	return sharedInstance;
 }
 
-
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
-{
+- (BOOL)application:(UIApplication *)application 
+		continueUserActivity:(NSUserActivity *)userActivity 
+		restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> *restorableObjects))restorationHandler {
+		
     if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
         NSURLComponents *URLComponents = [NSURLComponents componentsWithURL:userActivity.webpageURL resolvingAgainstBaseURL:YES];
         NSLog(@"APPLE_EVENT: open URL:%@", URLComponents.path);
 		
 		GodotAppleEvent* apple_event = GodotAppleEvent::get_singleton();
 		if (apple_event) {
-			apple_event.open_url(String::utf8([URLComponents.path UTF8String]));
+			apple_event->open_url(String::utf8([URLComponents.path UTF8String]));
 		}
     }
     return YES;
